@@ -1,6 +1,8 @@
 CC=g++
 CFLAGS=-std=c++11 -O3 -pedantic -Wall -Wextra -I${HOME}/include # -Werror
 LDFLAGS=
+NAUTY_CFLAGS=-I${HOME}/src/nauty26r10
+NAUTY_LDFLAGS=-L${HOME}/src/nauty26r10 -l:nauty.a
 
 .PHONY: all
 
@@ -15,10 +17,10 @@ obj:
 	mkdir obj
 
 bin/%: obj/%.o obj/graph.o
-	$(CC) -o $@ $< obj/graph.o $(LDFLAGS)
+	$(CC) -o $@ $< obj/graph.o $(LDFLAGS) $(NAUTY_LDFLAGS)
 	
 obj/%.o: src/%.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(NAUTY_CFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:
