@@ -11,6 +11,7 @@ public:
     typedef std::vector<Vertex> Automorphism; // a (particular type of) vertex permutation
     typedef std::set<Automorphism> AutomorphismGroup;
     AutomorphismGroup automorphism_group();
+    bool is_zero();
 private:
     friend std::ostream& operator<<(std::ostream& os, const Graph& graph);
     size_t d_vertices;

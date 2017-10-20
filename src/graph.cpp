@@ -1,7 +1,9 @@
 #include "graph.hpp"
+#include "permutation.hpp"
 #include "nauty.h"
 #include "naugroup.h"
 #include <functional>
+#include <algorithm>
 
 std::ostream& operator<<(std::ostream& os, const Graph::Vertex vertex)
 {
@@ -124,4 +126,25 @@ Graph::AutomorphismGroup Graph::automorphism_group()
     allgroup(group, add_automorphism);
 
     return automorphisms;
+}
+
+bool Graph::is_zero()
+{
+    for (Automorphism sigma : automorphism_group())
+    {
+        std::vector<Graph::Edge> new_edges = d_edges;
+        std::vector<char> induced_edge_permutation(d_edges.size());
+        size_t count = 0;
+        for (Graph::Edge& edge : new_edges)
+        {
+            edge.first = sigma[edge.first];
+            edge.second = sigma[edge.second];
+            if (edge.first > edge.second)
+                edge = {edge.second, edge.first};
+            induced_edge_permutation[count++] = std::distance(d_edges.begin(), std::find(d_edges.begin(), d_edges.end(), edge));
+        }
+        if (parity(induced_edge_permutation) == -1)
+            return true;
+    }
+    return false;
 }
