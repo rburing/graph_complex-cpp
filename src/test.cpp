@@ -8,5 +8,8 @@ int main()
     cout << "Graph: " << edge << "\n";
     cout << "Automorphisms: " << edge.automorphism_group() << " (" << edge.automorphism_group().size() << " in total)\n";
     cout << "Graph is " << (edge.is_zero() ? "zero" : "not zero") << "\n";
+    int parity = edge.label_canonically();
+    cout << "Canonical labeling: " << edge << "\n";
+    cout << "Parity of induced edge permutation: " << parity << "\n";
     return 0;
 }
