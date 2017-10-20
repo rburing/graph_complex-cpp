@@ -9,7 +9,13 @@ std::ostream& operator<<(std::ostream& os, const Graph::Vertex vertex)
     return os;
 }
 
-Graph::Graph(size_t vertices, std::vector<Edge> edges) : d_vertices(vertices), d_edges(edges) {}
+Graph::Graph(size_t vertices, std::vector<Edge> edges) : d_vertices(vertices), d_edges(edges)
+{
+    // store edges as { source, target } with source <= target:
+    for (Edge& edge : d_edges)
+        if (edge.first > edge.second)
+            edge = {edge.second, edge.first};
+}
 
 std::ostream& operator<<(std::ostream& os, const Graph& graph)
 {
