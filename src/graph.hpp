@@ -1,3 +1,6 @@
+#ifndef INCLUDED_GRAPH_H_
+#define INCLUDED_GRAPH_H_
+
 #include <vector>
 #include <set>
 #include <ostream>
@@ -21,3 +24,5 @@ private:
 std::ostream& operator<<(std::ostream& os, const Graph::Vertex vertex);
 std::ostream& operator<<(std::ostream& os, const Graph::Automorphism& sigma);
 std::ostream& operator<<(std::ostream& os, const Graph::AutomorphismGroup& automorphisms);
+
+#endif
