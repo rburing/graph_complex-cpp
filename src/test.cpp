@@ -1,5 +1,6 @@
 #include <iostream>
 #include "graph.hpp"
+#include "graph_sum.hpp"
 using namespace std;
 
 int main()
@@ -11,5 +12,23 @@ int main()
     int parity = edge.label_canonically();
     cout << "Canonical labeling: " << edge << "\n";
     cout << "Parity of induced edge permutation: " << parity << "\n";
+
+    GraphSum<int> zero_sum({ { edge, 1 } });
+    zero_sum.reduce_mod_skew();
+    cout << "Zero sum is " << ((zero_sum == 0) ? "zero" : "not zero") << ".\n";
+
+    Graph tetrahedron(4, { {0, 1}, {0, 2}, {0, 3}, {1, 2}, {1, 3}, {2, 3} });
+    Graph fivewheel(6, { {0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0},
+                         {0, 5}, {1, 5}, {2, 5}, {3, 5}, {4, 5} });
+    Graph roof(6, { {0, 1}, {1, 2}, {2, 3}, {3, 0}, {3, 4},
+                    {0, 4}, {4, 5}, {2, 5}, {1, 5}, {0, 2} });
+
+    GraphSum<int> tetrahedral_flow({ { tetrahedron, 1 } });
+    tetrahedral_flow.reduce_mod_skew();
+    GraphSum<int> fivewheel_flow({ { fivewheel, 2 }, { roof, 5} });
+    fivewheel_flow.reduce_mod_skew();
+
+    cout << "Tetrahedral flow:\n" << tetrahedral_flow;
+    cout << "5-wheel flow:\n" << fivewheel_flow;
     return 0;
 }
