@@ -16,6 +16,7 @@ public:
     AutomorphismGroup automorphism_group() const;
     bool is_zero() const;
     int label_canonically();
+    bool operator<(const Graph& other) const;
 private:
     friend std::ostream& operator<<(std::ostream& os, const Graph& graph);
     size_t d_vertices;

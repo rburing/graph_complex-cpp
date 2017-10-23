@@ -218,3 +218,8 @@ int Graph::label_canonically()
 
     return parity(induced_edge_permutation);
 }
+
+bool Graph::operator<(const Graph& other) const
+{
+    return std::tie(this->d_vertices, this->d_edges) < std::tie(other.d_vertices, other.d_edges);
+}
