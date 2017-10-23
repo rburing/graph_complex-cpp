@@ -152,6 +152,7 @@ bool Graph::is_zero() const
 int Graph::label_canonically()
 {
     DYNALLSTAT(int,lab,lab_sz);
+    DYNALLSTAT(int,invlab,invlab_sz);
     DYNALLSTAT(int,ptn,ptn_sz);
     DYNALLSTAT(int,orbits,orbits_sz);
     DYNALLSTAT(int,map,map_sz);
@@ -166,6 +167,7 @@ int Graph::label_canonically()
     nauty_check(WORDSIZE,m,n,NAUTYVERSIONID);
 
     DYNALLOC1(int,lab,lab_sz,n,"malloc");
+    DYNALLOC1(int,invlab,invlab_sz,n,"malloc");
     DYNALLOC1(int,ptn,ptn_sz,n,"malloc");
     DYNALLOC1(int,orbits,orbits_sz,n,"malloc");
     DYNALLOC1(int,map,map_sz,n,"malloc");
@@ -180,7 +182,7 @@ int Graph::label_canonically()
     DYNALLOC2(graph,cg1,cg1_sz,n,m,"malloc")
     densenauty(g1,lab,ptn,orbits,&options,&stats,m,n,cg1);
 
-    // extract the list of edges from the canonical labeling:
+    // extract the list of edges from the canonical labeling, ordering them lexicographically:
     std::vector<Edge> new_edges(d_edges.size());
     size_t edge_count = 0;
     for (size_t k = 0; k < m*(size_t)n; ++k)
@@ -196,9 +198,18 @@ int Graph::label_canonically()
     }
 
     /*
+    std::cerr << "Old edges: " << *this << "\n";
+    std::cerr << "New edges: " << Graph(d_vertices, new_edges) << "\n";
+    */
+
+    // compute the inverse of the isomorphism
+    for (int k = 0; k < n; ++k)
+        invlab[lab[k]] = k;
+
+    /*
     std::cout << "Isomorphism:";
     for (i = 0; i < n; ++i)
-        std::cout << " " << lab[i];
+        std::cout << " " << invlab[i];
     std::cout << "\n";
     */
 
@@ -207,12 +218,19 @@ int Graph::label_canonically()
     size_t count = 0;
     for (Graph::Edge edge : d_edges)
     {
-        edge.first = lab[(int)edge.first];
-        edge.second = lab[(int)edge.second];
+        edge.first = invlab[(int)edge.first];
+        edge.second = invlab[(int)edge.second];
         if (edge.first > edge.second)
             edge = {edge.second, edge.first};
         induced_edge_permutation[count++] = std::distance(new_edges.begin(), std::find(new_edges.begin(), new_edges.end(), edge));
     }
+
+    /*
+    std::cerr << "Induced edge permutation: ";
+    for (size_t i = 0; i != induced_edge_permutation.size(); ++i)
+        std::cerr << (int)induced_edge_permutation[i] << " ";
+    std::cerr << "\n";
+    */
 
     d_edges = new_edges;
 
