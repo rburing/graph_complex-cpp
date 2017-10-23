@@ -63,7 +63,7 @@ std::ostream& operator<<(std::ostream& os, const Graph::AutomorphismGroup& autom
     return os;
 }
 
-Graph::AutomorphismGroup Graph::automorphism_group()
+Graph::AutomorphismGroup Graph::automorphism_group() const
 {
     /* The following is adapted from nautyex3.c */
 
@@ -128,7 +128,7 @@ Graph::AutomorphismGroup Graph::automorphism_group()
     return automorphisms;
 }
 
-bool Graph::is_zero()
+bool Graph::is_zero() const
 {
     for (Automorphism sigma : automorphism_group())
     {

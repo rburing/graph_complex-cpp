@@ -13,8 +13,8 @@ public:
     Graph(size_t vertices, std::vector<Edge> edges);
     typedef std::vector<Vertex> Automorphism; // a (particular type of) vertex permutation
     typedef std::set<Automorphism> AutomorphismGroup;
-    AutomorphismGroup automorphism_group();
-    bool is_zero();
+    AutomorphismGroup automorphism_group() const;
+    bool is_zero() const;
     int label_canonically();
 private:
     friend std::ostream& operator<<(std::ostream& os, const Graph& graph);
