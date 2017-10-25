@@ -246,3 +246,8 @@ std::vector<Graph::Edge> Graph::edges() const
 {
     return d_edges;
 }
+
+size_t Graph::vertices() const
+{
+    return d_vertices;
+}
