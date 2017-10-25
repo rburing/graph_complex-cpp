@@ -241,3 +241,8 @@ bool Graph::operator<(const Graph& other) const
 {
     return std::tie(this->d_vertices, this->d_edges) < std::tie(other.d_vertices, other.d_edges);
 }
+
+std::vector<Graph::Edge> Graph::edges() const
+{
+    return d_edges;
+}
