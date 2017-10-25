@@ -24,6 +24,7 @@ class GraphSum: public std::map< Graph, T >
     bool operator==(int other) const;
     bool operator!=(const GraphSum<T>& other) const;
     bool operator!=(int other) const;
+    GraphSum<T> contracting_differential();
 
     private:
     friend std::ostream& operator<< <>(std::ostream& os, const GraphSum<T>& graph_sum);

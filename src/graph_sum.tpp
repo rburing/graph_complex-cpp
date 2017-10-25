@@ -92,3 +92,60 @@ GraphSum<T> operator*(T lhs, GraphSum<T> rhs)
         term.second *= lhs;
     return rhs;
 }
+
+template <class T>
+GraphSum<T> GraphSum<T>::contracting_differential()
+{
+    GraphSum<T> differential;
+    for (const typename GraphSum<T>::Term& term : *this)
+    {
+        //std::cerr << term.first << "\n";
+        size_t edge_count = 0;
+        for (const typename Graph::Edge& edge : term.first.edges())
+        {
+            int sign = edge_count++ % 2 == 0 ? 1 : -1;
+            //std::cerr << "Contracting { " << edge.first << ", " << edge.second << "}: sign " << sign << "\n";
+            std::vector<Graph::Edge> new_edges = term.first.edges();
+            // redirect everything from edge.second to edge.first
+            for (typename Graph::Edge& new_edge : new_edges)
+            {
+                if (new_edge.first == edge.second) new_edge.first = edge.first;
+                if (new_edge.second == edge.second) new_edge.second = edge.first;
+            }
+            // delete the newly created loop
+            for (auto it = new_edges.begin(); it != new_edges.end(); )
+                if (it->first == edge.first && it->second == edge.first)
+                    it = new_edges.erase(it);
+                else
+                    ++it;
+            // shift vertex labeling down, and sort edges
+            for (typename Graph::Edge& new_edge : new_edges)
+            {
+                if (new_edge.first >= edge.second) --new_edge.first;
+                if (new_edge.second >= edge.second) --new_edge.second;
+                if (new_edge.first > new_edge.second)
+                    new_edge = {new_edge.second, new_edge.first};
+            }
+            // skip graphs with double edges
+            bool double_edges = false;
+            std::map<Graph::Edge, size_t> edge_counts;
+            for (typename Graph::Edge& new_edge : new_edges)
+            {
+                if (++edge_counts[new_edge] == 2)
+                {
+                    double_edges = true;
+                    break;
+                }
+            }
+            Graph new_graph(term.first.vertices() - 1, new_edges);
+            //std::cerr << "New graph (before relabeling): " << new_graph << "\n";
+            //std::cerr << "Double edges? " << (double_edges ? "Yes" : "No") << "\n";
+            if (double_edges)
+                continue;
+            sign *= new_graph.label_canonically();
+            differential[new_graph] += sign*term.second;
+            //std::cerr << "New graph (after relabeling): " << new_graph << "    " << sign*term.second << "\n";
+        }
+    }
+    return differential;
+}

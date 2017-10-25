@@ -30,5 +30,17 @@ int main()
 
     cout << "Tetrahedral flow:\n" << tetrahedral_flow;
     cout << "5-wheel flow:\n" << fivewheel_flow;
+
+    cout << "Contracting differential of 5-wheel flow:\n";
+    GraphSum<int> d_fivewheel_flow = fivewheel_flow.contracting_differential();
+    d_fivewheel_flow.reduce_mod_skew();
+    cout << (d_fivewheel_flow == 0 ? "Vanishes" : "Does not vanish") << ".\n";
+
+    Graph human(7, { {0,1},{2,0},{2,1},{3,0},{3,4},{4,2},{5,4},{5,1},{6,3},{6,4},{6,5} });
+    GraphSum<int> human_cocycle({ { human, 1} });
+    cout << "Contracting differential of human:\n";
+    GraphSum<int> d_human = human_cocycle.contracting_differential();
+    d_human.reduce_mod_skew();
+    cout << d_human;
     return 0;
 }
