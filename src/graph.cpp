@@ -21,6 +21,7 @@ Graph::Graph(size_t vertices, std::vector<Edge> edges) : d_vertices(vertices), d
 
 std::ostream& operator<<(std::ostream& os, const Graph& graph)
 {
+    os << graph.d_vertices << " " << graph.d_edges.size() << " ";
     os << "{ ";
     size_t count = 0;
     for (Graph::Edge edge: graph.d_edges)
