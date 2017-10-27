@@ -47,7 +47,7 @@ int main()
     Graph test;
     cout << test << "\n";
     stringstream ss;
-    ss << "2 2 { { 0, 1 }, { 1, 0 } }";
+    ss << "2 2   0 1  1 0";
     ss >> test;
     cout << test << "\n";
     return 0;

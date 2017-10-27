@@ -31,17 +31,14 @@ Graph::Graph(size_t vertices, std::vector<Edge> edges) : d_vertices(vertices), d
 
 std::ostream& operator<<(std::ostream& os, const Graph& graph)
 {
-    os << graph.d_vertices << " " << graph.d_edges.size() << " ";
-    os << "{ ";
+    os << graph.d_vertices << " " << graph.d_edges.size() << "   ";
     size_t count = 0;
     for (Graph::Edge edge: graph.d_edges)
     {
-        os << "{ " << edge.first << ", " << edge.second << " }";
+        os << edge.first << " " << edge.second;
         if (++count != graph.d_edges.size())
-            os << ",";
-        os << " ";
+            os << "  ";
     }
-    os << "}";
     return os;
 }
 
@@ -51,12 +48,10 @@ std::istream& operator>>(std::istream& is, Graph& graph)
     is >> vertices >> num_edges;
     graph.d_vertices = vertices;
     std::vector<Graph::Edge> edges(num_edges);
-    std::string openbracket, comma, closebracket;
-    is >> openbracket;
     for (size_t idx = 0; idx != num_edges; ++idx)
     {
         Graph::Vertex source, target;
-        is >> openbracket >> source >> comma >> target >> closebracket;
+        is >> source >> target;
         edges[idx] = { source, target };
     }
     graph.d_edges = edges;
