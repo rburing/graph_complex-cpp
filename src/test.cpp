@@ -42,5 +42,8 @@ int main()
     GraphSum<int> d_human = human_cocycle.contracting_differential();
     d_human.reduce_mod_skew();
     cout << d_human;
+
+    Graph test;
+    cout << test << "\n";
     return 0;
 }

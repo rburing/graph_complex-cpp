@@ -251,3 +251,13 @@ size_t Graph::vertices() const
 {
     return d_vertices;
 }
+
+size_t Graph::vertices(size_t new_vertices)
+{
+    return d_vertices = new_vertices;
+}
+
+void Graph::set_edges(std::vector<Edge> edges)
+{
+    d_edges = edges;
+}
