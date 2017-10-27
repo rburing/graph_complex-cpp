@@ -1,6 +1,7 @@
 #include <iostream>
 #include "graph.hpp"
 #include "graph_sum.hpp"
+#include <sstream>
 using namespace std;
 
 int main()
@@ -44,6 +45,10 @@ int main()
     cout << d_human;
 
     Graph test;
+    cout << test << "\n";
+    stringstream ss;
+    ss << "2 2 { { 0, 1 }, { 1, 0 } }";
+    ss >> test;
     cout << test << "\n";
     return 0;
 }

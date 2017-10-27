@@ -4,11 +4,21 @@
 #include "naugroup.h"
 #include <functional>
 #include <algorithm>
+#include <istream>
+#include <string>
 
 std::ostream& operator<<(std::ostream& os, const Graph::Vertex vertex)
 {
     os << (size_t)vertex;
     return os;
+}
+
+std::istream& operator>>(std::istream& is, Graph::Vertex& vertex)
+{
+    int tmp;
+    is >> tmp;
+    vertex = tmp;
+    return is;
 }
 
 Graph::Graph(size_t vertices, std::vector<Edge> edges) : d_vertices(vertices), d_edges(edges)
@@ -33,6 +43,24 @@ std::ostream& operator<<(std::ostream& os, const Graph& graph)
     }
     os << "}";
     return os;
+}
+
+std::istream& operator>>(std::istream& is, Graph& graph)
+{
+    size_t vertices, num_edges;
+    is >> vertices >> num_edges;
+    graph.d_vertices = vertices;
+    std::vector<Graph::Edge> edges(num_edges);
+    std::string openbracket, comma, closebracket;
+    is >> openbracket;
+    for (size_t idx = 0; idx != num_edges; ++idx)
+    {
+        Graph::Vertex source, target;
+        is >> openbracket >> source >> comma >> target >> closebracket;
+        edges[idx] = { source, target };
+    }
+    graph.d_edges = edges;
+    return is;
 }
 
 std::ostream& operator<<(std::ostream& os, const Graph::Automorphism& sigma)

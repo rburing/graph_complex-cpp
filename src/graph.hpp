@@ -23,11 +23,13 @@ public:
     void set_edges(std::vector<Edge> edges);
 private:
     friend std::ostream& operator<<(std::ostream& os, const Graph& graph);
+    friend std::istream& operator>>(std::istream& is, Graph& graph);
     size_t d_vertices;
     std::vector<Edge> d_edges;
 };
 
 std::ostream& operator<<(std::ostream& os, const Graph::Vertex vertex);
+std::istream& operator>>(std::istream& is, Graph::Vertex& vertex);
 std::ostream& operator<<(std::ostream& os, const Graph::Automorphism& sigma);
 std::ostream& operator<<(std::ostream& os, const Graph::AutomorphismGroup& automorphisms);
 
