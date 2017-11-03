@@ -50,5 +50,11 @@ int main()
     ss << "2 2   0 1  1 0";
     ss >> test;
     cout << test << "\n";
+
+    GraphSum<int> test_sum;
+    stringstream sum_stream;
+    sum_stream << "3 2   0 1  1 2    1\n3 2   0 1  1 2    1";
+    sum_stream >> test_sum;
+    cout << test_sum;
     return 0;
 }

@@ -1,4 +1,6 @@
 #include "graph_sum.hpp"
+#include <string>
+#include <sstream>
 
 template<class T>
 std::ostream& operator<<(std::ostream& os, const GraphSum<T>& graph_sum)
@@ -6,6 +8,21 @@ std::ostream& operator<<(std::ostream& os, const GraphSum<T>& graph_sum)
     for (const typename GraphSum<T>::Term& term : graph_sum)
         os << term.first << "    " << term.second << "\n";
     return os;
+}
+
+template <class T>
+std::istream& operator>>(std::istream& is, GraphSum<T>& graph_sum)
+{
+    typename GraphSum<T>::Term term;
+    for (std::string line; getline(is, line); )
+    {
+        if (line.length() == 0 || line[0] == '#') // also skip comments
+            continue;
+        std::stringstream ss(line);
+        ss >> term.first >> term.second;
+        graph_sum[term.first] += term.second;
+    }
+    return is;
 }
 
 template <class T>
