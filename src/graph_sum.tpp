@@ -166,3 +166,22 @@ GraphSum<T> GraphSum<T>::contracting_differential()
     }
     return differential;
 }
+
+template <class T>
+GraphSum<T> GraphSum<T>::from_istream(std::istream& is, std::function<T(std::string)> const& parser)
+{
+    GraphSum<T> graph_sum;
+    for (std::string line; getline(is, line); )
+    {
+        if (line.length() == 0 || line[0] == '#') // also skip comments
+            continue;
+        Graph graph;
+        std::stringstream ss(line);
+        ss >> graph;
+        std::string coefficient_str;
+        ss >> coefficient_str;
+        T coefficient = parser(coefficient_str);
+        graph_sum[graph] += coefficient;
+    }
+    return graph_sum;
+}

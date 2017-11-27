@@ -4,6 +4,7 @@
 #include "graph.hpp"
 #include <map>
 #include <ostream>
+#include <functional>
 
 template<class T> class GraphSum;
 template<class T> std::ostream& operator<<(std::ostream&, const GraphSum<T>&);
@@ -26,6 +27,8 @@ class GraphSum: public std::map< Graph, T >
     bool operator!=(const GraphSum<T>& other) const;
     bool operator!=(int other) const;
     GraphSum<T> contracting_differential();
+
+    static GraphSum<T> from_istream(std::istream& is, std::function<T(std::string)> const& parser);
 
     private:
     friend std::ostream& operator<< <>(std::ostream& os, const GraphSum<T>& graph_sum);
