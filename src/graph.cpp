@@ -285,3 +285,14 @@ void Graph::set_edges(std::vector<Edge> edges)
 {
     d_edges = edges;
 }
+
+std::map<Graph::Vertex, size_t> Graph::degree_sequence() const
+{
+    std::map<Graph::Vertex, size_t> degrees;
+    for (const Graph::Edge& edge : d_edges)
+    {
+        degrees[edge.first]++;
+        degrees[edge.second]++;
+    }
+    return degrees;
+}

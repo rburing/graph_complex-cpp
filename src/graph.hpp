@@ -4,6 +4,7 @@
 #include <vector>
 #include <set>
 #include <ostream>
+#include <map>
 
 class Graph
 {
@@ -21,6 +22,8 @@ public:
     size_t vertices(size_t new_vertices);
     std::vector<Edge> edges() const;
     void set_edges(std::vector<Edge> edges);
+
+    std::map<Vertex, size_t> degree_sequence() const;
 private:
     friend std::ostream& operator<<(std::ostream& os, const Graph& graph);
     friend std::istream& operator>>(std::istream& is, Graph& graph);
