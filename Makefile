@@ -10,7 +10,8 @@ NAUTY_LDFLAGS=-L${HOME}/src/nauty26r10 -l:nauty.a
 all: obj\
 	bin\
 	bin/test\
-    bin/contracting_differential
+    bin/contracting_differential\
+    bin/expanding_differential
 
 bin:
 	mkdir bin

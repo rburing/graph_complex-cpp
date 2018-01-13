@@ -27,6 +27,7 @@ class GraphSum: public std::map< Graph, T >
     bool operator!=(const GraphSum<T>& other) const;
     bool operator!=(int other) const;
     GraphSum<T> contracting_differential();
+    GraphSum<T> expanding_differential();
 
     static GraphSum<T> from_istream(std::istream& is, std::function<T(std::string)> const& parser);
 

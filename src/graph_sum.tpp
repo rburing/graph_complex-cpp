@@ -1,6 +1,7 @@
 #include "graph_sum.hpp"
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 template<class T>
 std::ostream& operator<<(std::ostream& os, const GraphSum<T>& graph_sum)
@@ -163,6 +164,50 @@ GraphSum<T> GraphSum<T>::contracting_differential()
             differential[new_graph] += sign*term.second;
             //std::cerr << "New graph (after relabeling): " << new_graph << "    " << sign*term.second << "\n";
         }
+    }
+    return differential;
+}
+
+template <class T>
+GraphSum<T> GraphSum<T>::expanding_differential()
+{
+    GraphSum<T> differential;
+    for (const typename GraphSum<T>::Term& term : *this)
+    {
+        std::map<Graph::Vertex, size_t> degrees = term.first.degree_sequence();
+	Graph::Vertex new_vertex = term.first.vertices();
+        for (auto& vertex_degree : degrees)
+	{
+            if (vertex_degree.second <= 3)
+                continue;
+            Graph::Vertex vertex = vertex_degree.first;
+	    size_t degree = vertex_degree.second;
+            // Blow up this vertex of valency > 3
+            std::vector<Graph::Edge> new_edges = term.first.edges();
+            new_edges.reserve(new_edges.size() + 1); // make room for new edge and prevent reallocation
+            std::vector<Graph::Vertex*> incident_edges(degree);
+            size_t edge_count = 0;
+            for (Graph::Edge& edge : new_edges)
+            {
+                if (edge.first == vertex || edge.second == vertex)
+                    incident_edges[edge_count++] = edge.first == vertex ? &edge.first : &edge.second;
+            }
+            new_edges.push_back({ vertex, new_vertex });
+            // Decompose valency = n + m with n, m >= 2
+	    for (size_t n = 2; n != degree - 1; ++n)
+	    {
+                // Choose n edges to redirect to the new vertex of the new edge
+                std::string bitmask(n, 1);
+                bitmask.resize(degree, 0);
+                do {
+                    for (size_t i = 0; i != degree; ++i)
+		        *incident_edges[i] = bitmask[i] ? new_vertex : vertex;
+                    Graph graph(term.first.vertices()+1, new_edges);
+		    differential[graph] += term.second;
+                } while (std::prev_permutation(bitmask.begin(), bitmask.end()));
+            }
+            // Do not create graphs with vertices of valency < 3
+	}
     }
     return differential;
 }
