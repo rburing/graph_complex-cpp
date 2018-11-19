@@ -12,7 +12,8 @@ all: obj\
 	bin/test\
     bin/contracting_differential\
     bin/expanding_differential\
-    bin/reduce_mod_skew
+    bin/reduce_mod_skew\
+    bin/rank_nullity
 
 bin:
 	mkdir bin
