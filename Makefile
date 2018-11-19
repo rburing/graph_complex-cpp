@@ -10,6 +10,7 @@ NAUTY_LDFLAGS=-L${HOME}/src/nauty26r10 -l:nauty.a
 all: obj\
 	bin\
 	bin/test\
+	bin/generate_graphs\
     bin/contracting_differential\
     bin/expanding_differential\
     bin/reduce_mod_skew\
@@ -21,6 +22,10 @@ bin:
 
 obj:
 	mkdir obj
+
+bin/generate_graphs:
+	cp src/generate_graphs.py bin/generate_graphs
+	chmod +x bin/generate_graphs
 
 bin/%: obj/%.o obj/graph.o
 	$(CC) -o $@ $< obj/graph.o $(LDFLAGS) $(NAUTY_LDFLAGS) $(GINAC_LDFLAGS)
