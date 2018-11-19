@@ -15,7 +15,8 @@ all: obj\
     bin/expanding_differential\
     bin/reduce_mod_skew\
     bin/rank_nullity\
-	bin/kernel
+	bin/kernel\
+	bin/substitute_relations
 
 bin:
 	mkdir bin
