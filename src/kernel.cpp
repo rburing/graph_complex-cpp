@@ -24,5 +24,6 @@ int main(int argc, char* argv[])
     lst eqns;
     for (auto const& term : graph_sum)
         eqns.append(term.second==0);
-    cout << lsolve(eqns, vars) << "\n"; // , solve_algo::markowitz);
+    for (auto const& eqn : lsolve(eqns, vars)) // , solve_algo::markowitz);
+        cout << eqn << "\n";
 }
