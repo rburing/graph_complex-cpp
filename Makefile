@@ -11,7 +11,8 @@ all: obj\
 	bin\
 	bin/test\
     bin/contracting_differential\
-    bin/expanding_differential
+    bin/expanding_differential\
+    bin/reduce_mod_skew
 
 bin:
 	mkdir bin
