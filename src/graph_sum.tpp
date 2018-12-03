@@ -4,10 +4,17 @@
 #include <algorithm>
 
 template<class T>
+std::ostream& operator<<(std::ostream& os, const std::pair<Graph, T>& term)
+{
+    os << term.first << "    " << term.second << "\n";
+    return os;
+}
+
+template<class T>
 std::ostream& operator<<(std::ostream& os, const GraphSum<T>& graph_sum)
 {
     for (const typename GraphSum<T>::Term& term : graph_sum)
-        os << term.first << "    " << term.second << "\n";
+        os << term;
     return os;
 }
 

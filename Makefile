@@ -11,12 +11,13 @@ all: obj\
 	bin\
 	bin/test\
 	bin/generate_graphs\
-    bin/contracting_differential\
-    bin/expanding_differential\
-    bin/reduce_mod_skew\
-    bin/rank_nullity\
+	bin/contracting_differential\
+	bin/expanding_differential\
+	bin/reduce_mod_skew\
+	bin/rank_nullity\
 	bin/kernel\
-	bin/substitute_relations
+	bin/substitute_relations\
+	bin/orient
 
 bin:
 	mkdir bin

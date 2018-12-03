@@ -9,6 +9,7 @@
 template<class T> class GraphSum;
 template<class T> std::ostream& operator<<(std::ostream&, const GraphSum<T>&);
 template<class T> std::istream& operator>>(std::istream&, GraphSum<T>&);
+template<class T> std::ostream& operator<<(std::ostream&, const std::pair<Graph, T>&);
 
 template<class T>
 class GraphSum: public std::map< Graph, T >
@@ -34,6 +35,7 @@ class GraphSum: public std::map< Graph, T >
     private:
     friend std::ostream& operator<< <>(std::ostream& os, const GraphSum<T>& graph_sum);
     friend std::istream& operator>> <>(std::istream& is, GraphSum<T>& graph_sum);
+    friend std::ostream& operator<< <>(std::ostream& os, const std::pair<Graph, T>& term);
 };
 
 template <class T>
